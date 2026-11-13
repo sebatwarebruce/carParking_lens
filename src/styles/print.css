@@ -1,0 +1,7 @@
+@media print {
+  html, body { background: #fff !important; color: #000 !important; }
+  .no-print, nav, header[role='banner'], [data-offline-banner] { display: none !important; }
+  .print-area { box-shadow: none !important; border: none !important; background: #fff !important; color: #000 !important; width: 100% !important; max-width: 80mm; margin: 0 auto; }
+  .print-area * { color: #000 !important; background: transparent !important; }
+  @page { margin: 8mm; }
+}

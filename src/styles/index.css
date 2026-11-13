@@ -1,0 +1,146 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/inter';
+@import '@fontsource-variable/bricolage-grotesque';
+@import '@fontsource-variable/jetbrains-mono';
+@import './print.css';
+
+/* ---------- Semantic tokens (dark is the default, cream is the light theme) ---------- */
+:root {
+  color-scheme: dark;
+  --bg: #101010;
+  --bg-raised: #171717;
+  --surface: #1d1d1d;
+  --surface-2: #252525;
+  --border: #38332f;
+  --text: #f5ebd8;
+  --text-muted: #a7a29b;
+  --accent: #c65d25;
+  --accent-bright: #e87932;
+  --on-accent: #101010;
+  --accent-text: #e87932;
+  --glow: rgba(232, 121, 50, 0.22);
+  --success: #63c183;
+  --warning: #e6b24f;
+  --danger: #f0766b;
+  --info: #6db5e8;
+  --neu-light: #262626;
+  --neu-dark: #0a0a0a;
+  --r-sm: 10px;
+  --r-md: 16px;
+  --r-lg: 24px;
+}
+:root[data-theme='cream'] {
+  color-scheme: light;
+  --bg: #f5ebd8;
+  --bg-raised: #ede1cb;
+  --surface: #fbf5e8;
+  --surface-2: #efe4ce;
+  --border: #d6c7aa;
+  --text: #171717;
+  --text-muted: #5c564e;
+  --accent-text: #9a4416;
+  --glow: rgba(198, 93, 37, 0.14);
+  --success: #1e7a43;
+  --warning: #8a5a00;
+  --danger: #b42318;
+  --info: #0b5c8f;
+  --neu-light: #fffaf0;
+  --neu-dark: #cdbfa5;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-raised: var(--bg-raised);
+  --color-surface: var(--surface);
+  --color-surface2: var(--surface-2);
+  --color-line: var(--border);
+  --color-ink: var(--text);
+  --color-muted: var(--text-muted);
+  --color-accent: var(--accent);
+  --color-accent-bright: var(--accent-bright);
+  --color-on-accent: var(--on-accent);
+  --color-accent-text: var(--accent-text);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+  --color-info: var(--info);
+  --radius-sm: var(--r-sm);
+  --radius-md: var(--r-md);
+  --radius-lg: var(--r-lg);
+  --font-sans: 'Inter Variable', system-ui, sans-serif;
+  --font-display: 'Bricolage Grotesque Variable', 'Inter Variable', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
+}
+
+@layer base {
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.5;
+    transition: background-color 0.25s ease, color 0.25s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+  h1, h2, h3, h4 { font-family: var(--font-display); letter-spacing: -0.015em; line-height: 1.15; font-weight: 650; }
+  :focus-visible { outline: 2px solid var(--accent-text); outline-offset: 2px; border-radius: 6px; }
+  ::selection { background: var(--accent); color: var(--on-accent); }
+  button, [role='button'], a, input, select, textarea { touch-action: manipulation; }
+}
+
+@layer components {
+  /* Controlled ambient lens glow: one soft light source behind the page header. */
+  .lens-glow { position: relative; isolation: isolate; }
+  .lens-glow::before {
+    content: ''; position: absolute; inset: -40px -20px auto -20px; height: 260px; z-index: -1; pointer-events: none;
+    background: radial-gradient(60% 100% at 18% 0%, var(--glow), transparent 70%);
+  }
+  /* Neumorphic surfaces (always with a hairline border so contrast never depends on the shadow). */
+  .neu {
+    background: var(--bg-raised); border: 1px solid var(--border); border-radius: var(--r-lg);
+    box-shadow: 6px 6px 14px var(--neu-dark), -4px -4px 12px var(--neu-light);
+  }
+  .neu-key {
+    background: var(--bg-raised); border: 1px solid var(--border); border-radius: var(--r-md);
+    box-shadow: 4px 4px 10px var(--neu-dark), -3px -3px 8px var(--neu-light);
+    transition: box-shadow 0.15s ease, transform 0.15s ease;
+  }
+  .neu-key:active, .neu-key[aria-pressed='true'] { box-shadow: inset 3px 3px 7px var(--neu-dark), inset -2px -2px 6px var(--neu-light); transform: translateY(0.5px); }
+  .tabular { font-variant-numeric: tabular-nums; }
+  .plate { font-family: var(--font-mono); font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
+  .scroll-hide { scrollbar-width: none; }
+  .scroll-hide::-webkit-scrollbar { display: none; }
+  .safe-b { padding-bottom: max(env(safe-area-inset-bottom), 0px); }
+  .skeleton {
+    background: linear-gradient(90deg, var(--surface-2) 25%, color-mix(in srgb, var(--surface-2) 60%, var(--text) 8%) 50%, var(--surface-2) 75%);
+    background-size: 200% 100%; animation: shimmer 1.4s linear infinite; border-radius: var(--r-sm);
+  }
+  /* The Lens: aperture ring motif used on Entry actions and the camera viewfinder. */
+  .lens-ring {
+    border-radius: 9999px; border: 2px solid var(--accent);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 16%, transparent), 0 0 28px var(--glow), inset 0 0 18px var(--glow);
+  }
+}
+
+@keyframes shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+@keyframes lens-idle { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.025); } }
+.lens-idle { animation: lens-idle 4.5s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+  .skeleton { animation: none; }
+}
+
+@layer components {
+  .tone { --tone: var(--text-muted); color: var(--tone); background: color-mix(in srgb, var(--tone) 14%, transparent); border: 1px solid color-mix(in srgb, var(--tone) 38%, transparent); }
+  .tone-success { --tone: var(--success); } .tone-warning { --tone: var(--warning); } .tone-danger { --tone: var(--danger); } .tone-info { --tone: var(--info); } .tone-accent { --tone: var(--accent-text); }
+  dialog.modal { padding: 0; border: 1px solid var(--border); background: var(--bg-raised); color: var(--text); max-height: 92dvh; overflow: auto; }
+  dialog.modal::backdrop { background: rgba(0, 0, 0, 0.62); backdrop-filter: blur(2px); }
+  dialog.modal[open].is-dialog { border-radius: var(--r-lg); width: min(92vw, 30rem); margin: auto; animation: pop 0.18s ease-out; box-shadow: 0 24px 60px rgba(0,0,0,.5); }
+  dialog.modal[open].is-sheet { border-radius: var(--r-lg) var(--r-lg) 0 0; width: 100%; max-width: 40rem; margin: auto auto 0; animation: sheet-up 0.26s cubic-bezier(.2,.8,.2,1); }
+  @media (min-width: 640px) { dialog.modal[open].is-sheet { border-radius: var(--r-lg); margin: auto; animation: pop 0.18s ease-out; } }
+}
+@keyframes pop { from { opacity: 0; transform: translateY(8px) scale(0.98); } to { opacity: 1; transform: none; } }
+@keyframes sheet-up { from { transform: translateY(40px); opacity: 0.4; } to { transform: none; opacity: 1; } }

@@ -1,0 +1,43 @@
+// All user-facing copy for states lives here (wording from the UX guide, section 10) so it can be translated later (Q-15).
+export const MSG = {
+  entrySaved: 'Vehicle entry recorded.',
+  photoUploading: 'Uploading photo... Keep this screen open until upload finishes.',
+  cameraDenied: 'Camera access is blocked. Allow camera access in your browser settings, or choose a photo from your device.',
+  cameraUnavailable: 'No camera is available here. Choose a photo from your device instead.',
+  slotTaken: 'This space was just taken. Choose another available space.',
+  noSession: 'No active parking session found. Check the ticket or plate number and try again.',
+  paymentPending: 'Waiting for payment confirmation. Do not request another payment yet.',
+  paymentConfirmed: 'Payment confirmed. Receipt is ready.',
+  paymentFailed: 'Payment was not confirmed. You can check the status or try another available method.',
+  networkLost: 'Connection lost. This action has not been confirmed as saved. Reconnect and check the record before retrying.',
+  forbidden: "You don't have permission to do this. Contact your manager if you think this is a mistake.",
+  offline: 'You are offline. Entries, exits and payments are paused until you reconnect.',
+  sessionExpired: 'Your session expired. Sign in again to continue.',
+  genericError: 'We could not complete that. Check your connection and try again.',
+  entryTimeNote: 'The entry time is recorded by the server when you confirm.',
+  demoBanner: 'Demo mode: sample data, nothing here is a real transaction.',
+};
+
+// Whitelisted mapping from server error codes to safe messages. Unknown codes never render raw server text.
+export const ERROR_MESSAGES = {
+  VALIDATION_ERROR: 'Some details need attention. Check the highlighted fields.',
+  INVALID_CREDENTIALS: 'Email/phone or password is incorrect.',
+  ACCOUNT_DISABLED: 'This account is disabled. Contact your manager.',
+  RATE_LIMITED: 'Too many attempts. Wait a moment and try again.',
+  UNAUTHENTICATED: MSG.sessionExpired,
+  SESSION_EXPIRED: MSG.sessionExpired,
+  FORBIDDEN: MSG.forbidden,
+  NOT_FOUND: 'We could not find that record.',
+  SESSION_NOT_FOUND: MSG.noSession,
+  SLOT_CONFLICT: MSG.slotTaken,
+  DUPLICATE_ACTIVE_SESSION: 'This vehicle already has an active parking session.',
+  SESSION_ALREADY_CLOSED: 'This session is already closed.',
+  PAYMENT_ALREADY_PENDING: MSG.paymentPending,
+  INVALID_STATE_TRANSITION: 'This session changed. Refresh and check its status.',
+  UPLOAD_TOO_LARGE: 'That photo is too large. Retake it or choose a smaller one.',
+  UPLOAD_INVALID_TYPE: 'That file type is not supported. Use a JPEG, PNG or WebP photo.',
+  PRICING_UNAVAILABLE: 'No pricing rule applies to this vehicle. Contact your manager.',
+  AMOUNT_MISMATCH: 'The amount changed. Review the fee again before paying.',
+  NETWORK_ERROR: MSG.networkLost,
+  INTERNAL_ERROR: 'The server had a problem. Try again in a moment.',
+};
